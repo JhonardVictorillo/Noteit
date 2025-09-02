@@ -1,14 +1,18 @@
 <?php
 // Database connection configuration
-$host = getenv('DB_HOST');
-$dbname = getenv('DB_NAME');
-$username = getenv('DB_USER');
-$password = getenv('DB_PASS');      // Change as needed
-$port = getenv('DB_PORT') ?: 3306; // Default to 3306 if not set
+$host = getenv('DB_HOST') ?: 'localhost';
+$dbname = getenv('DB_NAME') ?: 'default';
+$username = getenv('DB_USER') ?: 'mysql';
+$password = getenv('DB_PASS') ?: '';  
+$port = getenv('DB_PORT') ?: 3306; 
+
 // Create database connection
 try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname;port=$port", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Use TCP/IP connection instead of socket
+    $conn = new PDO("mysql:host=$host;dbname=$dbname;port=$port", $username, $password, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_EMULATE_PREPARES => false
+    ]);
 } catch(PDOException $e) {
     echo json_encode(['error' => 'Connection failed: ' . $e->getMessage()]);
     die();
