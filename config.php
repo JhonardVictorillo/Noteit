@@ -1,9 +1,9 @@
 <?php
 // Database connection configuration
-$host = 'localhost';  // Change to your TablePlus host if different
-$dbname = 'noteit_db';
-$username = 'root';   // Change as needed
-$password = '';       // Change as needed
+$host = getenv('DB_HOST');
+$dbname = getenv('DB_NAME');
+$username = getenv('DB_USER');
+$password = getenv('DB_PASS');      // Change as needed
 
 // Create database connection
 try {
